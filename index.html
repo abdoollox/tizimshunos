@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tizimshunos | Profil</title>
+    <meta name="description" content="Tizimshunos: Tartib, Ta'lim va Ijod orqali jarayonlarni tizimlashtirish.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Header Wrapper (sticky glass panel) -->
+    <div class="header-wrapper">
+
+        <header class="system-header fade-in-up">
+            <div class="workspace header-inner-content">
+                <div class="logo">tizimshunos<span class="dot-accent">.</span></div>
+                <!-- Desktop nav: centered, hidden on mobile -->
+                <nav class="desktop-nav">
+                    <a href="#about" class="nav-link">Men haqimda</a>
+                    <a href="#portfolio" class="nav-link">Portfolio</a>
+                    <a href="#contact" class="nav-link btn-contact">Bog'lanish</a>
+                </nav>
+                <div class="header-actions">
+                    <div class="lang-dropdown">
+                        <button class="action-btn pill lang-toggle" id="langToggleBtn">UZ ▾</button>
+                        <div class="lang-menu">
+                            <button class="lang-option" data-lang="ru">RU</button>
+                            <button class="lang-option" data-lang="en">EN</button>
+                        </div>
+                    </div>
+                    <button id="themeToggle" class="action-btn circle theme-btn" title="Dark rejimga o'tish" aria-label="Toggle dark mode">
+                        <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        <svg id="themeIconMoon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                    <button class="action-btn circle mobile-toggle" id="mobileMenuBtn" aria-label="Menu">
+                        <svg class="icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                        <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mobile Nav (inside wrapper so it shares the glass panel) -->
+        <nav class="system-nav" id="mobileNav">
+            <div class="workspace">
+                <a href="#about" class="nav-link">Men haqimda</a>
+                <a href="#portfolio" class="nav-link">Portfolio</a>
+                <a href="#contact" class="nav-link btn-contact">Bog'lanish</a>
+            </div>
+        </nav>
+
+    </div><!-- /header-wrapper -->
+
+    <div class="workspace">
+
+        <main class="system-main">
+
+            <!-- INTERACTIVE HERO: Chaos → System -->
+            <section id="about" class="hero-section">
+                <canvas id="particleCanvas" class="particle-canvas"></canvas>
+                
+                <!-- Grid lines (visible only in ON state) -->
+                <div class="grid-overlay" id="gridOverlay"></div>
+
+                <div class="hero-content">
+                    <!-- Avatar & Interaction Trigger -->
+                    <div class="avatar-container" id="avatarContainer">
+                        <div class="avatar-trigger" id="avatarTrigger" role="button" tabindex="0" aria-label="Initialize system">
+                            <!-- Ripple rings -->
+                            <div class="ripple-ring ripple-1"></div>
+                            <div class="ripple-ring ripple-2"></div>
+                            <div class="ripple-ring ripple-3"></div>
+
+                            <div class="avatar-image-wrap">
+                                <img src="img/profile.png" alt="Abdulloh" class="hero-avatar" onerror="this.src='https://ui-avatars.com/api/?name=A&background=1a1a1a&color=3B82F6&size=120&bold=true'">
+                            </div>
+                            
+                            <!-- Cursor Icon -->
+                            <div class="click-hint" id="clickHint">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"></path>
+                                    <path d="M13 13l6 6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Text -->
+                    <h1 class="hero-headline">Sizga daho emas,<br><span class="highlight">'farrosh'</span> kerak.</h1>
+                    <p class="hero-subtext">
+                        Chunki har qanday biznes yoki ish jarayonini yaxshilashdan avval, uni ortiqcha chalkashliklardan tozalash kerak.
+                        Men vaqtingizni o'g'irlaydigan mantiqsiz bosqichlarni supurib tashlayman va ishingizni eng sodda, tiniq holatga keltirib beraman.
+                        <span class="hero-subtext-extra">Katta gapirib yubordimmi?! Keling, avval o'zim haqimda qisqacha aytib bersam...</span>
+                    </p>
+
+                    <!-- Interaction Hint -->
+                    <p class="systematize-hint" id="systematizeHint">Davom etish uchun tizimni tartibga soling</p>
+                </div>
+            </section>
+
+            <!-- HIDDEN CONTENT: Revealed only after Systematization -->
+            <div id="restOfPage" class="revealed-content-wrap">
+                <!-- Men haqimda Section -->
+                <section id="about-me" class="content-section fade-in-up">
+                    <div class="section-label text-blue">Men haqimda</div>
+                    <h2 class="section-title">Men haqimda</h2>
+                    
+                    <div class="empty-section-placeholder">
+                        <!-- Content will be added here later -->
+                    </div>
+                </section>
+
+                <!-- PORTFOLIO SECTION -->
+                <section id="portfolio" class="content-section fade-in-up">
+                    <div class="section-label text-yellow">Ishlar</div>
+                    <h2 class="section-title">Portfolio</h2>
+
+                    <div class="portfolio-grid">
+                        <div class="port-card">
+                            <div class="port-status status-green"><span class="dot pulse-green"></span> Live</div>
+                            <h3>Biznes Arxitekturasi</h3>
+                            <p>Notion + AI integratsiyasi orqali korporativ boshqaruvni to'liq avtomatizatsiyaga o'tkazish
+                                tajribasi.</p>
+                        </div>
+
+                        <div class="port-card">
+                            <div class="port-status status-blue"><span class="dot bg-blue"></span> Konsept</div>
+                            <h3>Vibe WebApp</h3>
+                            <p>Murakkab interfeyslardan voz kechib, minimalizm va "Apple Vibe" asosiga qurilgan veb-ilovalar
+                                qoralamasi.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTACT SECTION -->
+                <section id="contact" class="content-section fade-in-up">
+                    <div class="section-label text-red">Aloqa</div>
+                    <h2 class="section-title">Harakat qismi</h2>
+                    <div class="contact-card">
+                        <div class="contact-info">
+                            <h3>Tartibsizlikni tizimga solish vaqti keldi</h3>
+                            <p>Faqat aniq maqsadlar bilan tarmoqlarimdan birida gaplashamiz.</p>
+                        </div>
+                        <div class="contact-actions">
+                            <a href="links.html" class="btn btn-primary">Barcha aloqa tarmoqlari &rarr;</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="system-footer fade-in-up">
+                    <div class="copyright">
+                        Logic over everything &copy; <span id="year"></span>
+                    </div>
+                </footer>
+            </div><!-- /revealed-content-wrap -->
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/particles.js"></script>
+</body>
+
+</html>
