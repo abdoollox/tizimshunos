@@ -862,6 +862,8 @@ body.system-activated .desktop-nav {
     background: var(--active-color);
     border-color: transparent;
     color: white;
+    cursor: pointer;
+    z-index: 10; /* Ensure it is above the invisible core */
 }
 .skill-card.activated .socket-target::after {
     content: '✓';

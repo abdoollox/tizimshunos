@@ -109,8 +109,8 @@ function initSkillGamification() {
                 
                 // Animate core sliding back
                 core.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                core.style.opacity = '1';
-                core.style.pointerEvents = 'auto';
+                core.style.opacity = ''; // Reset to CSS default
+                core.style.pointerEvents = ''; // Reset to CSS default
                 currentX = 0;
                 core.style.transform = `translateX(0px)`;
                 
@@ -121,10 +121,13 @@ function initSkillGamification() {
     });
 
     function activateSkill(card, id, color, animBox) {
+        // Clear any previous inline styles that might interfere
+        const core = card.querySelector('.draggable-core');
+        core.style.pointerEvents = 'none'; 
+        core.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+
         card.classList.add('activated');
         card.style.setProperty('--active-color', color);
-        // Instant visual change for "activated" state of core via CSS
-        // but let's sync the JS currentX
         card.style.boxShadow = `0 20px 50px -10px ${color}33`;
 
         // Trigger specific animations
