@@ -139,19 +139,52 @@ function initSkillGamification() {
             `;
         } else if (id === 'explain') {
             animBox.innerHTML = `
-                <div style="display:flex; align-items:center; gap:12px; font-weight:bold; color:${color}; font-size:0.9rem;">
-                    <span style="opacity:0.4; text-decoration:line-through; color:var(--text-muted);">Muammo</span>
-                    <span style="font-size:1.2rem;">➜</span>
-                    <span style="background:${color}; color:white; padding:6px 16px; border-radius:20px; box-shadow:0 10px 20px ${color}40;">Yechim</span>
+                <div style="position:relative; display:flex; align-items:center; justify-content:center; width:100%; height:100%;">
+                    <div style="font-size:2.5rem; font-weight:900; color:${color}; text-shadow:0 0 20px ${color}80; animation: clarityPulse 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;">!</div>
                 </div>
+                <style>
+                    @keyframes clarityPulse { 
+                        0% { transform: scale(0) rotate(-45deg); opacity:0; } 
+                        100% { transform: scale(1) rotate(0); opacity:1; } 
+                    }
+                </style>
             `;
         } else if (id === 'create') {
             animBox.innerHTML = `
-                <div style="width:40px; height:40px; background:linear-gradient(45deg, ${color}, #fff); border-radius:50%; box-shadow:0 0 30px ${color}; animation: pulseCreate 2s infinite;"></div>
-                <style>
-                    @keyframes pulseCreate { 0%, 100% { transform: scale(1); opacity:1; } 50% { transform: scale(1.2); opacity:0.8; } }
-                </style>
+                <div id="particle-container-${id}" style="position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+                    <div style="width:12px; height:12px; background:${color}; border-radius:50%; box-shadow:0 0 30px ${color};"></div>
+                </div>
             `;
+            // Simple Particle Burst Logic
+            const container = animBox.querySelector('div');
+            for(let i=0; i<12; i++) {
+                const p = document.createElement('div');
+                const angle = (i / 12) * Math.PI * 2;
+                const dist = 30 + Math.random() * 20;
+                p.style.cssText = `
+                    position: absolute;
+                    width: 6px;
+                    height: 6px;
+                    background: ${color};
+                    border-radius: 50%;
+                    opacity: 0;
+                    transform: translate(0, 0);
+                    animation: burst-${id} 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                    animation-delay: ${Math.random() * 0.2}s;
+                `;
+                const tx = Math.cos(angle) * dist;
+                const ty = Math.sin(angle) * dist;
+                
+                const styleSheet = document.createElement('style');
+                styleSheet.innerHTML = `
+                    @keyframes burst-${id} {
+                        0% { transform: translate(0,0) scale(1); opacity:1; }
+                        100% { transform: translate(${tx}px, ${ty}px) scale(0); opacity:0; }
+                    }
+                `;
+                document.head.appendChild(styleSheet);
+                container.appendChild(p);
+            }
         }
     }
 }

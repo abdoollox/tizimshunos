@@ -770,7 +770,32 @@ body.system-activated .desktop-nav {
 .glitch-text { font-family: monospace; font-size: 0.7rem; color: var(--text-muted); opacity: 0.5; animation: glitchPulse 2s infinite; }
 @keyframes glitchPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
 
-.boring-square { width: 30px; height: 30px; background: var(--text-muted); opacity: 0.2; transition: all 0.5s ease; }
+.expl-offline {
+    display: flex;
+    gap: 15px;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text-muted);
+}
+.expl-offline span {
+    opacity: 0.2;
+    animation: floatQuest 3s infinite ease-in-out;
+}
+.expl-offline span:nth-child(2) { animation-delay: 0.5s; }
+.expl-offline span:nth-child(3) { animation-delay: 1s; }
+
+@keyframes floatQuest {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(20deg); }
+}
+
+.crea-offline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    opacity: 0.2;
+}
 
 /* Interaction Lane */
 .interaction-lane {
