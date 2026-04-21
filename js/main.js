@@ -131,62 +131,57 @@ function initSkillGamification() {
         card.style.boxShadow = `0 20px 50px -10px ${color}33`;
 
         // Trigger specific animations
+        const container = animBox.querySelector('.blocks-container');
+        const blocks = animBox.querySelectorAll('.block');
+
         if (id === 'sort') {
-            animBox.innerHTML = `
-                <div style="display:flex; gap:8px;">
-                    ${[1,2,3,4,5].map(i => `<div style="width:24px; height:24px; background:${color}; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white; font-size:10px; font-weight:bold; animation: slideIn 0.3s ${i*0.1}s both;">${i}</div>`).join('')}
-                </div>
-                <style>
-                    @keyframes slideIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
-                </style>
-            `;
+            container.classList.remove('messy');
+            blocks.forEach((block, i) => {
+                block.style.opacity = '1';
+                block.style.background = color;
+                block.style.transform = 'rotate(0deg) translateY(0)';
+                block.innerText = i + 1;
+                block.style.color = 'white';
+                block.style.fontSize = '10px';
+                block.style.fontWeight = 'bold';
+                block.style.display = 'flex';
+                block.style.alignItems = 'center';
+                block.style.justifyContent = 'center';
+                block.style.boxShadow = `0 4px 10px ${color}40`;
+            });
         } else if (id === 'explain') {
-            animBox.innerHTML = `
-                <div style="position:relative; display:flex; align-items:center; justify-content:center; width:100%; height:100%;">
-                    <div style="font-size:2.5rem; font-weight:900; color:${color}; text-shadow:0 0 20px ${color}80; animation: clarityPulse 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;">!</div>
-                </div>
-                <style>
-                    @keyframes clarityPulse { 
-                        0% { transform: scale(0) rotate(-45deg); opacity:0; } 
-                        100% { transform: scale(1) rotate(0); opacity:1; } 
-                    }
-                </style>
-            `;
+            const heights = [15, 30, 45, 25, 40];
+            blocks.forEach((block, i) => {
+                block.style.opacity = '1';
+                block.style.background = color;
+                block.style.height = `${heights[i]}px`;
+                block.style.width = '18px';
+                block.style.boxShadow = `0 4px 10px ${color}40`;
+                block.style.animation = `barGrow 0.6s ${i * 0.1}s cubic-bezier(0.175, 0.885, 0.32, 1.275) both`;
+            });
+            // Inject grow keyframe if not exists
+            if (!document.getElementById('anim-styles')) {
+                const s = document.createElement('style');
+                s.id = 'anim-styles';
+                s.innerHTML = `@keyframes barGrow { from { height: 0; opacity:0; } }`;
+                document.head.appendChild(s);
+            }
         } else if (id === 'create') {
-            animBox.innerHTML = `
-                <div id="particle-container-${id}" style="position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-                    <div style="width:12px; height:12px; background:${color}; border-radius:50%; box-shadow:0 0 30px ${color};"></div>
-                </div>
-            `;
-            // Simple Particle Burst Logic
-            const container = animBox.querySelector('div');
-            for(let i=0; i<12; i++) {
-                const p = document.createElement('div');
-                const angle = (i / 12) * Math.PI * 2;
-                const dist = 30 + Math.random() * 20;
-                p.style.cssText = `
-                    position: absolute;
-                    width: 6px;
-                    height: 6px;
-                    background: ${color};
-                    border-radius: 50%;
-                    opacity: 0;
-                    transform: translate(0, 0);
-                    animation: burst-${id} 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                    animation-delay: ${Math.random() * 0.2}s;
-                `;
-                const tx = Math.cos(angle) * dist;
-                const ty = Math.sin(angle) * dist;
-                
-                const styleSheet = document.createElement('style');
-                styleSheet.innerHTML = `
-                    @keyframes burst-${id} {
-                        0% { transform: translate(0,0) scale(1); opacity:1; }
-                        100% { transform: translate(${tx}px, ${ty}px) scale(0); opacity:0; }
-                    }
-                `;
-                document.head.appendChild(styleSheet);
-                container.appendChild(p);
+            const heights = [20, 40, 30, 45, 35];
+            const colors = ['#4285F4', '#EA4335', '#FBBC05', '#34A853', '#9333EA'];
+            blocks.forEach((block, i) => {
+                block.style.opacity = '1';
+                block.style.height = `${heights[i]}px`;
+                block.style.background = colors[i];
+                block.style.boxShadow = `0 10px 20px ${colors[i]}50`;
+                block.style.animation = `barMagic 1.5s ${i * 0.1}s infinite alternate ease-in-out`;
+            });
+            // Inject magic keyframe
+            if (!document.getElementById('magic-styles')) {
+                const s = document.createElement('style');
+                s.id = 'magic-styles';
+                s.innerHTML = `@keyframes barMagic { 0% { transform: scaleY(1); filter: brightness(1); } 100% { transform: scaleY(1.1); filter: brightness(1.2); } }`;
+                document.head.appendChild(s);
             }
         }
     }
