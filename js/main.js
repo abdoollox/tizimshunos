@@ -21,7 +21,141 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. Mobile Menu
     initMobileMenu();
+
+    // 7. Skill Gamification
+    initSkillGamification();
 });
+
+function initSkillGamification() {
+    const cards = document.querySelectorAll('.skill-card');
+    
+    cards.forEach(card => {
+        const core = card.querySelector('.draggable-core');
+        const lane = card.querySelector('.interaction-lane');
+        const socket = card.querySelector('.socket-target');
+        const animBox = card.querySelector('.skill-animation-box');
+        const skillId = card.getAttribute('data-skill');
+        const activeColor = core.getAttribute('data-color');
+
+        if (!core || !lane) return;
+
+        // Store initial state for deactivation
+        const initialAnimContent = animBox.innerHTML;
+
+        let isDragging = false;
+        let startX = 0;
+        let currentX = 0;
+        let maxDelta = 0;
+
+        core.addEventListener('pointerdown', (e) => {
+            if (card.classList.contains('activated')) return;
+            isDragging = true;
+            maxDelta = lane.offsetWidth - core.offsetWidth - 16;
+            startX = e.clientX - currentX;
+            core.setPointerCapture(e.pointerId);
+            core.style.transition = 'none';
+        });
+
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            
+            let x = e.clientX - startX;
+            x = Math.max(0, Math.min(x, maxDelta));
+            currentX = x;
+            core.style.transform = `translateX(${currentX}px)`;
+
+            // Check if close to socket
+            if (currentX > maxDelta * 0.9) {
+                socket.style.transform = 'scale(1.2)';
+                socket.style.borderColor = activeColor;
+            } else {
+                socket.style.transform = 'scale(1)';
+                socket.style.borderColor = '';
+            }
+        });
+
+        window.addEventListener('pointerup', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+
+            if (currentX > maxDelta * 0.85) {
+                // SUCCESS: Connect
+                activateSkill(card, skillId, activeColor, animBox);
+            } else {
+                // FAIL: Snap back
+                core.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                currentX = 0;
+                core.style.transform = `translateX(0px)`;
+                socket.style.transform = 'scale(1)';
+            }
+        });
+
+        // DEACTIVATION: Click on socket to reset
+        socket.addEventListener('click', () => {
+            if (card.classList.contains('activated')) {
+                deactivateSkill(card, initialAnimContent, core);
+            }
+        });
+
+        function deactivateSkill(card, initialHtml, core) {
+            animBox.style.transition = 'opacity 0.4s ease';
+            animBox.style.opacity = '0';
+            
+            setTimeout(() => {
+                card.classList.remove('activated');
+                card.style.boxShadow = '';
+                animBox.innerHTML = initialHtml;
+                animBox.style.opacity = '1';
+                
+                // Animate core sliding back
+                core.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                core.style.opacity = '1';
+                core.style.pointerEvents = 'auto';
+                currentX = 0;
+                core.style.transform = `translateX(0px)`;
+                
+                socket.style.transform = 'scale(1)';
+                socket.style.borderColor = '';
+            }, 300);
+        }
+    });
+
+    function activateSkill(card, id, color, animBox) {
+        card.classList.add('activated');
+        card.style.setProperty('--active-color', color);
+        // Instant visual change for "activated" state of core via CSS
+        // but let's sync the JS currentX
+        card.style.boxShadow = `0 20px 50px -10px ${color}33`;
+
+        // Trigger specific animations
+        if (id === 'sort') {
+            animBox.innerHTML = `
+                <div style="display:flex; gap:8px;">
+                    ${[1,2,3,4,5].map(i => `<div style="width:24px; height:24px; background:${color}; border-radius:4px; display:flex; align-items:center; justify-content:center; color:white; font-size:10px; font-weight:bold; animation: slideIn 0.3s ${i*0.1}s both;">${i}</div>`).join('')}
+                </div>
+                <style>
+                    @keyframes slideIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+                </style>
+            `;
+        } else if (id === 'explain') {
+            animBox.innerHTML = `
+                <div style="display:flex; align-items:center; gap:12px; font-weight:bold; color:${color}; font-size:0.9rem;">
+                    <span style="opacity:0.4; text-decoration:line-through; color:var(--text-muted);">Muammo</span>
+                    <span style="font-size:1.2rem;">➜</span>
+                    <span style="background:${color}; color:white; padding:6px 16px; border-radius:20px; box-shadow:0 10px 20px ${color}40;">Yechim</span>
+                </div>
+            `;
+        } else if (id === 'create') {
+            animBox.innerHTML = `
+                <div style="width:40px; height:40px; background:linear-gradient(45deg, ${color}, #fff); border-radius:50%; box-shadow:0 0 30px ${color}; animation: pulseCreate 2s infinite;"></div>
+                <style>
+                    @keyframes pulseCreate { 0%, 100% { transform: scale(1); opacity:1; } 50% { transform: scale(1.2); opacity:0.8; } }
+                </style>
+            `;
+        }
+    }
+}
+
 
 function initMobileMenu() {
     const btn = document.getElementById('mobileMenuBtn');

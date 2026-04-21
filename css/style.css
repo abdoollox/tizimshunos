@@ -441,20 +441,20 @@ body.system-activated .desktop-nav {
 }
 
 .hero-subtext-extra {
-    display: block;
-    margin-top: 1rem;
+    display: none;
     opacity: 0;
-    max-height: 0;
-    overflow: hidden;
-    color: var(--sys-blue); /* Emphasis color */
-    font-weight: 500;
-    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--sys-blue);
+    font-weight: 600;
 }
 
 #about.system-active .hero-subtext-extra {
-    opacity: 1;
-    max-height: 100px;
-    margin-top: 1.5rem;
+    display: inline;
+    animation: fadeInReveal 1.2s forwards;
+}
+
+@keyframes fadeInReveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes cursorTap {
@@ -679,6 +679,193 @@ body.system-activated .desktop-nav {
     to { opacity: 1; transform: translateY(0); }
 }
 .fade-in-up { animation: fadeInUp 0.6s ease-out both; }
+
+/* GAMIFIED SKILLS SECTION */
+.section-label-mono {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.main-heading-gradient {
+    background: linear-gradient(to right, #4285F4, #9333EA, #EC4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.skills-gamified-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 3rem 0;
+}
+
+.skill-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 1.5rem;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-card.activated {
+    border-color: transparent;
+}
+
+.skill-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.skill-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.skill-status {
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    background: var(--bg-color);
+    border-radius: 20px;
+    color: var(--text-muted);
+    transition: all 0.4s ease;
+}
+
+.skill-description {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.skill-animation-box {
+    height: 100px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+[data-theme="dark"] .skill-animation-box { background: rgba(255,255,255,0.03); }
+
+/* Animation Sub-elements */
+.chaos-dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 4px; background: var(--text-muted); opacity: 0.3; transform: rotate(15deg); transition: all 0.5s ease; }
+
+.glitch-text { font-family: monospace; font-size: 0.7rem; color: var(--text-muted); opacity: 0.5; animation: glitchPulse 2s infinite; }
+@keyframes glitchPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+
+.boring-square { width: 30px; height: 30px; background: var(--text-muted); opacity: 0.2; transition: all 0.5s ease; }
+
+/* Interaction Lane */
+.interaction-lane {
+    height: 56px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 28px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border: 1px solid var(--border-color);
+    margin-top: auto;
+}
+[data-theme="dark"] .interaction-lane { background: rgba(255,255,255,0.05); }
+
+.lane-hint {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    opacity: 0.4;
+    letter-spacing: 0.2em;
+    pointer-events: none;
+}
+
+.socket-target {
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
+    border: 2px dashed var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.draggable-core {
+    position: absolute;
+    left: 8px;
+    width: 40px;
+    height: 40px;
+    background: var(--text-main);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    cursor: grab;
+    z-index: 5;
+    user-select: none;
+    touch-action: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.1s ease;
+}
+
+.draggable-core:active { cursor: grabbing; transform: scale(1.1); }
+
+/* Activated States */
+.skill-card.activated .socket-target {
+    background: var(--active-color);
+    border-color: transparent;
+    color: white;
+}
+.skill-card.activated .socket-target::after {
+    content: '✓';
+    font-size: 0.8rem;
+    font-weight: bold;
+    animation: scaleIn 0.3s ease;
+}
+@keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+.skill-card.activated .lane-hint { opacity: 0; }
+.skill-card.activated .draggable-core { 
+    opacity: 0; 
+    pointer-events: none;
+    transform: translateX(165px) scale(0.5); /* Pre-position for deactivation logic */
+}
+
+.about-cta-footer {
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.about-cta-footer p {
+    margin-bottom: 0 !important;
+}
 
 /* LINKS PAGE / SOCIAL HUB */
 .links-page {
@@ -909,6 +1096,10 @@ body.system-activated .desktop-nav {
         height: 150px;
     }
 
+    .systematize-hint {
+        margin-top: 1.5rem;
+    }
+
     .desktop-nav {
         display: none !important;
     }
@@ -1001,7 +1192,7 @@ body.system-activated .desktop-nav {
         font-size: 2rem;
     }
 
-    .pillars-container { 
+    .skills-gamified-container { 
         grid-template-columns: 1fr; 
         gap: var(--space-md);
     }
@@ -1036,5 +1227,11 @@ body.system-activated .desktop-nav {
         font-size: 0.9rem;
         padding: 12px 18px;
         border-radius: 20px;
+    }
+    .about-cta-footer { 
+        flex-direction: column; 
+        text-align: center; 
+        align-items: center; 
+        gap: 1.5rem;
     }
 }

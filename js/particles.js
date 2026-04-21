@@ -177,42 +177,72 @@
         animationId = requestAnimationFrame(render);
     }
 
-    // --- Toggle handler ---
-    function toggleSystem() {
-        isOnline = !isOnline;
+    // --- Persistence ---
+    function saveState() {
+        localStorage.setItem('tizimshunos-system-on', isOnline);
+    }
 
-        // Save current positions as start for transition
-        particles.forEach(p => {
+    function loadState() {
+        const saved = localStorage.getItem('tizimshunos-system-on');
+        if (saved === 'true') {
+            applySystemState(true, true); // true for online, true for immediate
+        }
+    }
+
+    function applySystemState(online, immediate = false) {
+        isOnline = online;
+        
+        if (immediate) {
+            transitionStart = null;
+            if (avatarContainer) avatarContainer.classList.toggle('system-on', isOnline);
+            if (gridOverlay) gridOverlay.classList.toggle('visible', isOnline);
             if (isOnline) {
-                p.startX = p.x;
-                p.startY = p.y;
-            } else {
-                p.startX = p.gridX;
-                p.startY = p.gridY;
-                // Set new random chaos targets
-                p.x = Math.random() * W;
-                p.y = Math.random() * H;
-            }
-        });
-
-        transitionStart = performance.now();
-
-        // Update UI
-        if (avatarContainer) avatarContainer.classList.toggle('system-on', isOnline);
-        gridOverlay.classList.toggle('visible', isOnline);
-
-        // Progressive Reveal Logic
-        if (isOnline) {
-            document.body.classList.add('system-activated');
-            if (aboutSection) aboutSection.classList.add('system-active');
-            if (restOfPage) {
-                restOfPage.style.display = 'block';
-                // Small delay to allow display:block to take effect before opacity transition
-                setTimeout(() => {
+                document.body.classList.add('system-activated');
+                if (aboutSection) aboutSection.classList.add('system-active');
+                if (restOfPage) {
+                    restOfPage.style.display = 'block';
                     restOfPage.classList.add('is-visible');
-                }, 50);
+                }
+            }
+        } else {
+            // Save current positions as start for transition
+            particles.forEach(p => {
+                if (isOnline) {
+                    p.startX = p.x;
+                    p.startY = p.y;
+                } else {
+                    p.startX = p.gridX;
+                    p.startY = p.gridY;
+                    // Set new random chaos targets
+                    p.x = Math.random() * W;
+                    p.y = Math.random() * H;
+                }
+            });
+
+            transitionStart = performance.now();
+
+            // Update UI
+            if (avatarContainer) avatarContainer.classList.toggle('system-on', isOnline);
+            gridOverlay.classList.toggle('visible', isOnline);
+
+            // Progressive Reveal Logic
+            if (isOnline) {
+                document.body.classList.add('system-activated');
+                if (aboutSection) aboutSection.classList.add('system-active');
+                if (restOfPage) {
+                    restOfPage.style.display = 'block';
+                    setTimeout(() => {
+                        restOfPage.classList.add('is-visible');
+                    }, 50);
+                }
             }
         }
+        saveState();
+    }
+
+    // --- Toggle handler ---
+    function toggleSystem() {
+        applySystemState(!isOnline, false);
     }
 
     // --- Init ---
@@ -229,5 +259,6 @@
     window.addEventListener('resize', resize);
 
     resize();
+    loadState(); // Apply saved state if any
     render();
 })();

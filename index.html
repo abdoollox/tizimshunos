@@ -22,7 +22,7 @@
                 <div class="logo">tizimshunos<span class="dot-accent">.</span></div>
                 <!-- Desktop nav: centered, hidden on mobile -->
                 <nav class="desktop-nav">
-                    <a href="#about" class="nav-link">Men haqimda</a>
+                    <a href="#about-me" class="nav-link">Men haqimda</a>
                     <a href="#portfolio" class="nav-link">Portfolio</a>
                     <a href="#contact" class="nav-link btn-contact">Bog'lanish</a>
                 </nav>
@@ -49,7 +49,7 @@
         <!-- Mobile Nav (inside wrapper so it shares the glass panel) -->
         <nav class="system-nav" id="mobileNav">
             <div class="workspace">
-                <a href="#about" class="nav-link">Men haqimda</a>
+                <a href="#about-me" class="nav-link">Men haqimda</a>
                 <a href="#portfolio" class="nav-link">Portfolio</a>
                 <a href="#contact" class="nav-link btn-contact">Bog'lanish</a>
             </div>
@@ -94,9 +94,11 @@
                     <!-- Main Text -->
                     <h1 class="hero-headline">Sizga daho emas,<br><span class="highlight">'farrosh'</span> kerak.</h1>
                     <p class="hero-subtext">
-                        Chunki har qanday biznes yoki ish jarayonini yaxshilashdan avval, uni ortiqcha chalkashliklardan tozalash kerak.
-                        Men vaqtingizni o'g'irlaydigan mantiqsiz bosqichlarni supurib tashlayman va ishingizni eng sodda, tiniq holatga keltirib beraman.
-                        <span class="hero-subtext-extra">Katta gapirib yubordimmi?! Keling, avval o'zim haqimda qisqacha aytib bersam...</span>
+                        E'tibor bering, siz yaxshiroq natijaga erishish uchun ko'plab ishlarni amalga oshiryapsiz. Shu qadar ko'p yangiliklar qo'shyapsizki endi qo'shimcha o'zgarishlar sizni ortga tortayotgandek va sizga yuk bo'layotgandek tuyulishni boshlaydi.
+                        <br><br>
+                        Bu xuddi uyni jihozlar bilan to'ldirishga o'xshaydigan jarayon. Avvaliga xona bo'm-bo'sh bo'ladi. Unga jihoz qo'shganingiz sari xona chiroyli ko'rinishni va qulayliklar berishni boshlaydi. Shu jihozlardan foyda olish uchun foydalanganizda esa xona tartibsizlanishni boshlaydi. Bu esa sizga noqulayliklar olib keladi. Shu paytda siz xonani tartiblab o'zining eng yaxshi holatiga olib kelasiz.
+                        <br><br>
+                        Biznesda ham shunday,<span class="hero-subtext-extra"> jarayon bo'layotgan joyda tartibsizlik boshlanadi. Shu jarayonlardan maksimal foyda olish uchun esa jarayonlarni tartiblab turishingiz kerak. Professional tilda buni "tizimlashtirish" deb atashadi. Men esa sizning atrofingizda bo'layotgan jarayonlarni tartiblash orqali natijangizni oshirishda yordam beraman.</span>
                     </p>
 
                     <!-- Interaction Hint -->
@@ -109,10 +111,74 @@
                 <!-- Men haqimda Section -->
                 <section id="about-me" class="content-section fade-in-up">
                     <div class="section-label text-blue">Men haqimda</div>
-                    <h2 class="section-title">Men haqimda</h2>
                     
-                    <div class="empty-section-placeholder">
-                        <!-- Content will be added here later -->
+                    <p style="margin-bottom: 2rem; color: var(--text-muted); font-size: 1.15rem;">O'zim haqimda qisqacha aytadigan bo'lsam, menda 3 ta super qobiliyat bor:</p>
+                    
+                    <div class="skills-gamified-container">
+                        
+                        <!-- SKILL 1: SORT -->
+                        <div class="skill-card" id="skill-sort" data-skill="sort">
+                            <div class="skill-card-header">
+                                <span class="skill-title">🔢 Tartiblash</span>
+                            </div>
+                            <p class="skill-description">Chalkashliklarni tizimga solish va eng sodda holatga keltirish.</p>
+                            
+                            <!-- Animation Box -->
+                            <div class="skill-animation-box" id="anim-sort">
+                                <div class="chaos-dots">
+                                    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                                </div>
+                            </div>
+
+                            <!-- Interaction Lane -->
+                            <div class="interaction-lane">
+                                <span class="lane-hint">SUURING &rarr;</span>
+                                <div class="socket-target"></div>
+                                <div class="draggable-core" id="core-sort" data-color="#3B82F6">🔢</div>
+                            </div>
+                        </div>
+
+                        <!-- SKILL 2: EXPLAIN -->
+                        <div class="skill-card" id="skill-explain" data-skill="explain">
+                            <div class="skill-card-header">
+                                <span class="skill-title">💡 Tushuntirish</span>
+                            </div>
+                            <p class="skill-description">Murakkab narsalarni hamma tushunadigan tilda yetkazish.</p>
+                            
+                            <div class="skill-animation-box" id="anim-explain">
+                                <div class="glitch-text">[ERR_404]: LOGIC_NOT_FOUND...</div>
+                            </div>
+
+                            <div class="interaction-lane">
+                                <span class="lane-hint">SUURING &rarr;</span>
+                                <div class="socket-target"></div>
+                                <div class="draggable-core" id="core-explain" data-color="#FBBC05">💡</div>
+                            </div>
+                        </div>
+
+                        <!-- SKILL 3: CREATE -->
+                        <div class="skill-card" id="skill-create" data-skill="create">
+                            <div class="skill-card-header">
+                                <span class="skill-title">🎨 Ijodkorlik</span>
+                            </div>
+                            <p class="skill-description">Standartlardan tashqari, yangicha va estetik yechimlar yaratish.</p>
+                            
+                            <div class="skill-animation-box" id="anim-create">
+                                <div class="boring-square"></div>
+                            </div>
+
+                            <div class="interaction-lane">
+                                <span class="lane-hint">SUURING &rarr;</span>
+                                <div class="socket-target"></div>
+                                <div class="draggable-core" id="core-create" data-color="#34A853">🎨</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="about-cta-footer">
+                        <p>Agar men haqimda chuqurroq tanishib chiqmoqchi bo'lsangiz quyidagi tugmani bosing:</p>
+                        <a href="about.html" class="btn btn-primary" style="margin-top: 1.5rem;">Batafsil tanishish &rarr;</a>
                     </div>
                 </section>
 
