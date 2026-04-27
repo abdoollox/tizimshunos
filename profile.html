@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tizimshunos | Psixologik Profil</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bento-card {
+            background: white;
+            border: 1px solid rgba(0,0,0,0.08);
+            border-radius: 24px;
+            padding: 28px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .bento-card:hover {
+            border-color: rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        }
+        
+        [data-theme="dark"] .bento-card {
+            background: #111111;
+            border-color: rgba(255,255,255,0.1);
+        }
+        [data-theme="dark"] .bento-card:hover {
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .chart-bar-container {
+            height: 8px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 99px;
+            overflow: hidden;
+            width: 100%;
+        }
+        [data-theme="dark"] .chart-bar-container {
+            background: rgba(255,255,255,0.1);
+        }
+        .chart-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .level-badge {
+            background: #000;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 2px solid #222;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        [data-theme="dark"] .level-badge {
+            background: #222;
+            border-color: #333;
+        }
+
+        .stagger-item { opacity: 0; transform: translateY(20px); }
+
+        .result-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 2rem;
+            padding: 8px 16px;
+            border-radius: 99px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--surface-hover);
+        }
+        .result-btn:hover { 
+            border-color: var(--sys-blue);
+            color: var(--sys-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 133, 244, 0.1);
+        }
+    </style>
+</head>
+<body class="dot-grid min-h-screen">
+
+    <!-- Header Wrapper -->
+    <div class="header-wrapper">
+        <header class="system-header">
+            <div class="workspace header-inner-content">
+                <a href="about.html" class="action-btn circle back-btn" title="Ortga qaytish">
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </a>
+                <div class="logo">tizimshunos<span class="dot-accent">.</span></div>
+                <div class="header-actions">
+                    <button id="themeToggle" class="action-btn circle theme-btn" title="Toggle theme">
+                        <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        <svg id="themeIconMoon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <main class="workspace py-12 md:py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+
+            <!-- Bento Grid - TOP SUMMARY (Full Width) -->
+            <div class="grid grid-cols-1 gap-6 mb-6">
+                <div class="bento-card stagger-item">
+                    <div class="flex flex-col md:flex-row items-center gap-12 py-4">
+                        <!-- Left: Avatar -->
+                        <div class="relative flex-shrink-0 mx-auto md:mx-0">
+                            <div class="w-48 h-48 rounded-full border-4 border-white dark:border-zinc-800 overflow-hidden shadow-2xl bg-gray-100">
+                                <img src="img/profile.png" alt="Abdoollox Azeez" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=A&background=1a1a1a&color=4285F4&size=128&bold=true'">
+                            </div>
+                            <div class="absolute -bottom-3 left-1/2 -translate-x-1/2">
+                                <div class="level-badge">
+                                    <i data-lucide="brain" class="w-3.5 h-3.5" style="color: var(--sys-blue);"></i>
+                                    <span>IQ: 110</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Summary Text -->
+                        <div class="flex-grow text-left space-y-6">
+                            <h2 class="text-3xl font-extrabold tracking-tight">Umumiy xulosa</h2>
+                            <p class="text-base text-gray-500 leading-relaxed max-w-3xl">
+                                Men o'zimni <span class="text-blue-500 font-bold">tizimshunos</span> sifatida tanishtiraman. Bu yo'lni o'zimdan-o'zim tanlaganmanmi yoki bu uchun menda sabablar bormi? Albatta sabablar ko'p. Xattoki psixologik holatim ham meni aynan shu ishni bajarishga moyilligim kattaligini anglatadi.
+                            </p>
+                            <p class="text-base text-gray-500 leading-relaxed max-w-3xl">
+                                IQ darajam <span class="text-blue-500 font-bold">110</span> ni tashkil qiladi. Bu dunyo aholisining <span class="font-bold text-blue-600 dark:text-blue-400">75%</span> idan yuqori natija ekanini anglatadi, bu esa murakkab muammolarni yechishda va andozalarni aniqlashda ustunlik beradi.
+                            </p>
+                            <p class="text-base text-gray-500 leading-relaxed max-w-3xl">
+                                MBTI, DISC va PAEI testlaridagi natijalarimdan ham guvohi bo'lishingiz mumkinki, mening resurslarni tartibga solish, jarayonlarni standartlashtirish va tizimli samaradorlikni oshirishga bo'lgan tabiiy moyilligim qolganlarga nisbatan yuqori.
+                            </p>
+                            <div class="flex flex-wrap gap-3 justify-start pt-2">
+                                <span class="px-4 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[11px] font-bold rounded-full uppercase tracking-widest">Analitik</span>
+                                <span class="px-4 py-1.5 bg-zinc-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 text-[11px] font-bold rounded-full uppercase tracking-widest">Mantiqchi</span>
+                                <span class="px-4 py-1.5 bg-zinc-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 text-[11px] font-bold rounded-full uppercase tracking-widest">Tizimli</span>
+                                <span class="px-4 py-1.5 bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-gray-400 text-[11px] font-bold rounded-full uppercase tracking-widest">75% Percentile</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bento Grid - DETAILED TESTS (3 Columns) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- MBTI Block -->
+                <div class="bento-card stagger-item">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2 rounded-lg bg-blue-600 dark:bg-zinc-800">
+                            <i data-lucide="puzzle" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold tracking-tight">MBTI: INTP</h3>
+                    </div>
+                    
+                    <div class="space-y-5 flex-grow">
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                                <span>INTROVERT</span>
+                                <span class="text-gray-400">78%</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill" style="width: 0%; background-color: var(--sys-blue);" data-percent="78%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                                <span>INTUITIVE</span>
+                                <span class="text-gray-400">65%</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill" style="width: 0%; background-color: var(--sys-blue);" data-percent="65%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                                <span>THINKING</span>
+                                <span class="text-gray-400">82%</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill" style="width: 0%; background-color: var(--sys-blue);" data-percent="82%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                                <span>PROSPECTING</span>
+                                <span class="text-gray-400">71%</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill" style="width: 0%; background-color: var(--sys-blue);" data-percent="71%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="#" class="result-btn w-full justify-center">
+                            <span>Natijam</span>
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- DISC Block -->
+                <div class="bento-card stagger-item">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2 rounded-lg bg-blue-600 dark:bg-zinc-800">
+                            <i data-lucide="target" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold tracking-tight">DISC</h3>
+                    </div>
+                    
+                    <div class="space-y-5 flex-grow">
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-500">
+                                <span>Dominance</span>
+                                <span>14/20</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill" style="width: 0%; background-color: var(--sys-blue);" data-percent="70%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                                <span>Influence</span>
+                                <span>8/20</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill bg-gray-300 dark:bg-zinc-700" style="width: 0%" data-percent="40%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                                <span>Steadiness</span>
+                                <span>12/20</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill bg-gray-300 dark:bg-zinc-700" style="width: 0%" data-percent="60%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider" style="color: var(--sys-blue);">
+                                <span>Compliance</span>
+                                <span>17/20</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill" style="width: 0%; background-color: var(--sys-blue);" data-percent="85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="https://psytests.org/result?v=disC6n_r1&b=5BFKlkQI" target="_blank" class="result-btn w-full justify-center">
+                            <span>Natijam</span>
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PAEI Block -->
+                <div class="bento-card stagger-item">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="p-2 rounded-lg bg-blue-600 dark:bg-zinc-800">
+                            <i data-lucide="briefcase" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <h3 class="text-lg font-bold tracking-tight">PAEI</h3>
+                    </div>
+                    
+                    <div class="space-y-5 flex-grow">
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                                <span>Producer</span>
+                                <span>23/40</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill bg-gray-300 dark:bg-zinc-700" style="width: 0%" data-percent="57.5%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider" style="color: var(--sys-blue);">
+                                <span>Administrator</span>
+                                <span>36/40</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill" style="width: 0%; background-color: var(--sys-blue);" data-percent="90%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                                <span>Entrepreneur</span>
+                                <span>25/40</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill bg-gray-300 dark:bg-zinc-700" style="width: 0%" data-percent="62.5%"></div>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5">
+                            <div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-gray-400">
+                                <span>Integrator</span>
+                                <span>16/40</span>
+                            </div>
+                            <div class="chart-bar-container">
+                                <div class="chart-bar-fill bg-gray-300 dark:bg-zinc-700" style="width: 0%" data-percent="40%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="https://paei.denero.ru/0/fhVmKj" target="_blank" class="result-btn w-full justify-center">
+                            <span>Natijam</span>
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // GSAP Animations
+        window.addEventListener('DOMContentLoaded', () => {
+            // Staggered entry
+            gsap.to('.stagger-item', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: 'power4.out',
+                onComplete: () => {
+                    // Animate chart bars after entry
+                    document.querySelectorAll('.chart-bar-fill').forEach(bar => {
+                        const targetWidth = bar.getAttribute('data-percent');
+                        bar.style.width = targetWidth;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
